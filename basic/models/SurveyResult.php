@@ -11,5 +11,7 @@ class SurveyResult extends Model
     public $sub_cat_id;
     public $region_id;
     public $city_id;
+    public $title;
+    public $text;
 
 }

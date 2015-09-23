@@ -33,27 +33,29 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
+    if (Yii::$app->user->isGuest) {
+        $items = [
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Advert', 'url' => ['/advert/index']],
-            //['label' => 'About', 'url' => ['/site/about']],
-            //['label' => 'Contact', 'url' => ['/site/contact']],
-            ['label' => 'Account', 'url' => ['/user/view?id=' . Yii::$app->user->identity->getId()]],
-            ['label' => 'User CRUD', 'url' => ['/user/index']],
-            //['label' => 'Settings', 'url' => ['/user/change-account-settings']],
             ['label' => 'Sign Up', 'url' => ['/site/signup']],
-            Yii::$app->user->isGuest ?
-                ['label' => 'Login', 'url' => ['/site/login']]
-                //[['label' => 'Sign Up', 'url' => ['/site/signup']]
-    :
-                [
-                    'label' => 'Logout (' . Yii::$app->user->identity->getFullName() . ')',
-                    'url' => ['/site/logout'],
-                    'linkOptions' => ['data-method' => 'post']
-                ],
-        ],
+            ['label' => 'Login', 'url' => ['/site/login']]
+        ];
+    } else {
+        $items = [
+            ['label' => 'Home', 'url' => ['/site/index']],
+            ['label' => 'Advert', 'url' => ['/advert/index']],
+            ['label' => 'User CRUD', 'url' => ['/user/index']],
+            ['label' => 'Account', 'url' => ['/user/view?id=' . Yii::$app->user->identity->getId()]],
+            [
+                'label' => 'Logout (' . Yii::$app->user->identity->getFullName() . ')',
+                'url' => ['/site/logout'],
+                'linkOptions' => ['data-method' => 'post']
+            ]
+        ];
+    }
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'items' => $items
     ]);
     NavBar::end();
     ?>

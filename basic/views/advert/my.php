@@ -14,17 +14,32 @@
 //                                    ':created' => time(),
 //                                    ':updated' => time()
 //                                ])->execute();
+
+    $model = new \app\models\Advert();
+    $array = $model->getMyAdvert();
+
     ?>
     <?php $table = '<table class="table table-striped table-bordered">'; ?>
-    <?php $table .= '<tr><th>Title</th><th>Updated At</th><th>Views</th><th>Edit</th></tr>'; ?>
-    <?php $adv = Yii::$app->db->createCommand('SELECT * FROM advert WHERE user_id = :user_id',
-        [':user_id' => Yii::$app->user->identity->getId()])
-        ->queryAll(); ?>
-    <?php for ($tr = 0; $tr < count($adv); $tr++) : ?>
+    <?php $table .= '<tr>
+                        <th>Region</th>
+                        <th>City</th>
+                        <th>Category</th>
+                        <th>Subcategory</th>
+                        <th>Title</th>
+                        <th>Updated At</th>
+                        <th>Views</th>
+                        <th>Edit</th>
+                    </tr>'; ?>
+
+    <?php for ($tr = 0; $tr < count($array); $tr++) : ?>
         <?php $table .= '<tr>';?>
-        <?php $table .= '<td>' . $adv[$tr]['title'] .'</td>'; ?>
-        <?php $table .= '<td>' . date($format, $adv[$tr]['updated_at']) .'</td>'; ?>
-        <?php $table .= '<td>' . $adv[$tr]['views'] .'</td>'; ?>
+        <?php $table .= '<td>' . $array[$tr]['region'] . '</td>'; ?>
+        <?php $table .= '<td>' . $array[$tr]['city'] . '</td>'; ?>
+        <?php $table .= '<td>' . $array[$tr]['category'] . '</td>'; ?>
+        <?php $table .= '<td>' . $array[$tr]['subcategory'] . '</td>'; ?>
+        <?php $table .= '<td>' . $array[$tr]['title'] . '</td>'; ?>
+        <?php $table .= '<td>' . date($format, $array[$tr]['updated_at']) .'</td>'; ?>
+        <?php $table .= '<td>' . $array[$tr]['views'] .'</td>'; ?>
         <?php $table .= '<td><a href="http://vk.com" title="View" aria-label="View" data-pjax="0">
                             <span class="glyphicon glyphicon-eye-open"></span></a>
                         <a title="Update" aria-label="Update" data-pjax="0">
@@ -37,6 +52,7 @@
     <?php $table .= '</table>'; ?>
     <?= $table ?>
 </div>
+
 
 </body>
 </html>

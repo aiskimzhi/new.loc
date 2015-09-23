@@ -44,8 +44,8 @@ class Advert extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'region_id', 'city_id', 'category_id', 'subcategory_id', 'title', 'text'], 'required'],
-            [['user_id', 'region_id', 'city_id', 'category_id', 'subcategory_id', 'created_at', 'updated_at', 'views'], 'integer'],
+            [['region_id', 'city_id', 'category_id', 'subcategory_id', 'title', 'text'], 'required'],
+            //[['created_at', 'updated_at', 'views'], 'integer'],
             [['text'], 'string'],
             [['title'], 'string', 'max' => 255]
         ];
@@ -58,10 +58,10 @@ class Advert extends \yii\db\ActiveRecord
     {
         return [
             'user_id' => 'User ID',
-            'region_id' => 'Region ID',
-            'city_id' => 'City ID',
-            'category_id' => 'Category ID',
-            'subcategory_id' => 'Subcategory ID',
+            'region_id' => 'Region',
+            'city_id' => 'City',
+            'category_id' => 'Category',
+            'subcategory_id' => 'Subcategory',
             'title' => 'Title',
             'text' => 'Text',
         ];
@@ -115,19 +115,47 @@ class Advert extends \yii\db\ActiveRecord
         return $this->hasMany(Bookmark::className(), ['advert_id' => 'id']);
     }
 
-    public function getMyAdvert($id)
+    public function getMyAdvert()
     {
-        $query = new Query();
-        $array = $query->select(['title', 'updated_at', 'views'])
-            ->from(Advert::tableName())
-            ->where(['id' => $id])
-            ->all();
+        $adv = Yii::$app->db->createCommand('SELECT
+                    advert.id,
+                    category.name AS category,
+                    subcategory.name AS subcategory,
+                    region.name AS region,
+                    city.name AS city,
+                    advert.title,
+                    advert.created_at,
+                    advert.updated_at,
+                    advert.views
+                      FROM category, subcategory, region, city, advert
+                      WHERE category.id = advert.category_id
+                        AND subcategory.id = advert.subcategory_id
+                        AND region.id = advert.region_id
+                        AND city.id = advert.city_id
+                        AND advert.user_id = :user_id',
+            [':user_id' => Yii::$app->user->identity->getId()])
+            ->queryAll();
 
-        return $array;
+        return $adv;
     }
 
-    public function create()
+    public function createAdvert()
     {
-
+        if ($this->validate()) {
+            $advert = new Advert;
+            $advert->user_id = Yii::$app->user->identity->getId();
+            $advert->category_id = $this->category_id;
+            $advert->subcategory_id = $this->subcategory_id;
+            $advert->region_id = $this->region_id;
+            $advert->city_id = $this->city_id;
+            $advert->title = $this->title;
+            $advert->text = $this->text;
+            $advert->created_at = time();
+            $advert->updated_at = time();
+            if ($advert->save()) {
+                return $advert;
+            }
+        }
+        return null;
     }
 }
