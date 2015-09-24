@@ -24,11 +24,11 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
+<!--
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+           // 'id',
             'user_id',
             'region_id',
             'city_id',
@@ -41,5 +41,33 @@ $this->params['breadcrumbs'][] = $this->title;
             'views',
         ],
     ]) ?>
+-->
 
+    <?php $arr = $model->getAdvert($model->id); ?>
+    <?= 'Category: ' . $arr[0]['category'] . '<br>'; ?>
+    <?= 'Subcategory: ' . $arr[0]['subcategory'] . '<br>'; ?>
+    <?= 'Region: ' . $arr[0]['region'] . '<br>'; ?>
+    <?= 'City: ' . $arr[0]['city'] . '<br>'; ?>
+    <?= $arr[0]['title'] . '<br>'; ?>
+    <?= $arr[0]['text'] . '<br>'; ?>
+    <?= '<h5><b>Contacts:</b></h5>'; ?>
+    <?= 'Phone: ' . $arr[0]['phone'] . '<br>'; ?>
+    <?= 'Skype: ' . $arr[0]['skype'] . '<br>'; ?>
+    <?= 'E-mail: ' . $arr[0]['email'] . '<br>'; ?>
+
+    <?php
+
+    if ($arr[0]['user_id'] == Yii::$app->user->identity->getId()) {
+        echo Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
+        echo Html::a('Delete', ['delete', 'id' => $model->id], [
+            'class' => 'btn btn-danger',
+            'data' => [
+                'confirm' => 'Are you sure you want to delete this item?',
+                'method' => 'post',
+            ],
+        ]);
+    } else {
+        echo Html::a('Add to bookmarks', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
+    }
+    ?>
 </div>

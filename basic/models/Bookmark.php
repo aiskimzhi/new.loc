@@ -59,4 +59,22 @@ class Bookmark extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    public function getBookmarks()
+    {
+        $bookmarks = Yii::$app->db->createCommand('SELECT
+                          category.name AS category,
+                          subcategory.name AS subcategory,
+                          advert.title,
+                          advert.updated_at
+		                  FROM category, subcategory, advert, bookmark
+                          WHERE bookmark.user_id = :user_id
+        	                AND bookmark.advert_id = advert.id
+                            AND category.id = advert.category_id
+                            AND subcategory.id = advert.subcategory_id',
+            [':user_id' => Yii::$app->user->identity->getId()])
+            ->queryAll();
+
+        return $bookmarks;
+    }
 }

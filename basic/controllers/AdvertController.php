@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\AdvertUse;
+use app\models\Bookmark;
 use Yii;
 use app\models\Advert;
 use app\models\AdvertCRUD;
@@ -41,7 +42,7 @@ class AdvertController extends Controller
     public function actionIndex()
     {
         $model = new Advert();
-        $arr = $model->getMyAdvert();
+        $arr = $model->getMyAdverts();
         print_r($arr);
         echo count($arr);
 
@@ -63,10 +64,24 @@ class AdvertController extends Controller
      */
     public function actionView($id)
     {
+        $model = new Advert();
+        $arr = $model->getAdvert($id);
+        //var_dump($arr);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
+
+//    public function actionViewAdvert()
+//    {
+//
+//        $model = new Advert();
+//        $arr = $model->getAdvert($_GET['id']);
+//
+//        return $this->render('view-advert');
+//
+//    }
 
     /**
      * Creates a new Advert model.
@@ -94,15 +109,34 @@ class AdvertController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+//        $m = new Advert();
+//        var_dump($m->updateAdv());
+//        var_dump($model = $this->findModel($id)->getAttributes(['user_id', 'id'])); die;
+        //var_dump($this->findModel($id)['_attributes":"yii\db\BaseActiveRecord":private']['user_id']); die;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
+        var_dump($model = $this->findModel($id));
+
+        $catList = ArrayHelper::map(Category::find()->asArray()->all(), 'id', 'name');
+        $subcatList = ArrayHelper::map(Subcategory::find()->asArray()->all(), 'id', 'name');
+        $regionList = ArrayHelper::map(Region::find()->asArray()->all(), 'id', 'name');
+        $cityList = ArrayHelper::map(City::find()->asArray()->all(), 'id', 'name');
+
+        return $this->render('update',
+            [
                 'model' => $model,
+                'catList' => $catList,
+                'subcatList' => $subcatList,
+                'regionList' => $regionList,
+                'cityList' => $cityList
             ]);
-        }
+
+//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//            return $this->redirect(['view', 'id' => $model->id]);
+//        } else {
+//            return $this->render('update', [
+//                'model' => $model,
+//            ]);
+//        }
     }
 
     /**
@@ -136,13 +170,36 @@ class AdvertController extends Controller
 
     public function actionMy()
     {
-        $searchModel = new AdvertCRUD();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('my', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        $model = new Advert();
+
+        $catList = ArrayHelper::map(Category::find()->asArray()->all(), 'id', 'name');
+        $subcatList = ArrayHelper::map(Subcategory::find()->asArray()->all(), 'id', 'name');
+        $regionList = ArrayHelper::map(Region::find()->asArray()->all(), 'id', 'name');
+        $cityList = ArrayHelper::map(City::find()->asArray()->all(), 'id', 'name');
+
+        return $this->render('my',
+            [
+                'model' => $model,
+                'catList' => $catList,
+                'subcatList' => $subcatList,
+                'regionList' => $regionList,
+                'cityList' => $cityList
+            ]);
+
+
+
+
+//        $searchModel = new AdvertCRUD();
+//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+//
+//        return $this->render('my', [
+//            'searchModel' => $searchModel,
+//            'dataProvider' => $dataProvider,
+//        ]);
+
+
+
     }
 
 //    public function actionAdv()
@@ -232,5 +289,23 @@ class AdvertController extends Controller
             echo "<option>-</option>";
         }
         echo Json::encode(['output'=>'', 'selected'=>'']);
+    }
+
+    public function actionBookmarks()
+    {
+        $model = new Bookmark();
+
+//        $catList = ArrayHelper::map(Category::find()->asArray()->all(), 'id', 'name');
+//        $subcatList = ArrayHelper::map(Subcategory::find()->asArray()->all(), 'id', 'name');
+
+//        return $this->render('bookmarks',
+//            [
+//                'model' => $model,
+//                'catList' => $catList,
+//                'subcatList' => $subcatList,
+//            ]);
+
+        return $this->render('bookmarks', [
+            'model' => $model]);
     }
 }

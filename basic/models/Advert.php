@@ -115,7 +115,7 @@ class Advert extends \yii\db\ActiveRecord
         return $this->hasMany(Bookmark::className(), ['advert_id' => 'id']);
     }
 
-    public function getMyAdvert()
+    public function getMyAdverts()
     {
         $adv = Yii::$app->db->createCommand('SELECT
                     advert.id,
@@ -151,6 +151,55 @@ class Advert extends \yii\db\ActiveRecord
             $advert->title = $this->title;
             $advert->text = $this->text;
             $advert->created_at = time();
+            $advert->updated_at = time();
+            if ($advert->save()) {
+                return $advert;
+            }
+        }
+        return null;
+    }
+
+    public function getAdvert($id)
+    {
+
+        $adv = Yii::$app->db->createCommand('SELECT
+                    advert.id,
+                    category.name AS category,
+                    subcategory.name AS subcategory,
+                    region.name AS region,
+                    city.name AS city,
+                    user.phone,
+                    user.skype,
+                    user.email,
+                    advert.user_id,
+                    advert.title,
+                    advert.text,
+                    advert.created_at,
+                    advert.updated_at,
+                    advert.views
+                      FROM category, subcategory, region, city, advert, user
+                      WHERE category.id = advert.category_id
+                        AND subcategory.id = advert.subcategory_id
+                        AND region.id = advert.region_id
+                        AND city.id = advert.city_id
+                        AND advert.user_id = user.id
+                        AND advert.id = :id',
+            [':id' => $id])
+            ->queryAll();
+
+        return $adv;
+    }
+
+    public function updateAdv()
+    {
+        if ($this->validate()) {
+            $advert = new Advert();
+            $advert->category_id = $this->category_id;
+            $advert->subcategory_id = $this->subcategory_id;
+            $advert->region_id = $this->region_id;
+            $advert->city_id = $this->city_id;
+            $advert->title = $this->title;
+            $advert->text = $this->text;
             $advert->updated_at = time();
             if ($advert->save()) {
                 return $advert;

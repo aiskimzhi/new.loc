@@ -34,6 +34,32 @@ $this->title = 'My Yii Application';
         ?>
     </div>
 
+    <?php
+    use yii\helpers\Html;
+    use yii\bootstrap\ActiveForm;
+
+    $form = ActiveForm::begin(['id' => 'id']);
+    echo Html::input('button', 'button', 'button', [
+        'onclick' => 'msg'
+    ]);
+
+//    $model = new \app\models\Advert();
+//
+//    echo $form->field($model, 'a')->input('button', [
+//        'value' => 'BUTTON',
+//        'onclick' => '
+//                        $.ajax({
+//                            url: http://new.loc/advert/add-to-bookmarks?id=2,
+//                            success: function() {
+//                                .alert("OK");
+//                            }
+//                        });
+//                        '
+//    ]);
+//
+//    ActiveForm::end();
+    ?>
+
     <div class="body-content">
 
         <div class="row">
