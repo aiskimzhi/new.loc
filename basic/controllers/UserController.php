@@ -155,4 +155,9 @@ class UserController extends Controller
             ]);
         }
     }
+
+    public function actionForgot()
+    {
+        return $this->render('forgot');
+    }
 }
