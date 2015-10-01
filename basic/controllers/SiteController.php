@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\City;
 use app\models\Region;
+use app\models\ResetPasswordForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -111,5 +112,21 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionResetPassword($token)
+    {
+        try {
+            $model = new ResetPasswordForm($token);
+        } catch (InvalidParamException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+            Yii::$app->session->setFlash('success', 'New password was saved.');
+            return $this->goHome();
+        }
+        return $this->render('resetPassword', [
+            'model' => $model,
+        ]);
     }
 }

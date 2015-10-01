@@ -4,9 +4,10 @@ namespace app\controllers;
 
 use Yii;
 use app\models\User;
-use app\models\ChangeAccountSettings;
+//use app\models\ChangeAccountSettings;
 use app\models\ChangePassword;
 use app\models\UserCRUD;
+use app\models\PasswordResetRequestForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -158,6 +159,28 @@ class UserController extends Controller
 
     public function actionForgot()
     {
-        return $this->render('forgot');
+        $model = new User();
+        return $this->render('passwordResetRequestForm', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionRequestPasswordReset()
+    {
+        $model = new PasswordResetRequestForm();
+
+        //var_dump($model->validate());
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if ($model->sendEmail()) {
+                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
+                return $this->goHome();
+            } else {
+                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
+            }
+        }
+        return $this->render('requestPasswordResetToken', [
+            'model' => $model,
+        ]);
     }
 }
