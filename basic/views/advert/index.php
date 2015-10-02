@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\Advert;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AdvertCRUD */
@@ -27,18 +28,49 @@ $this->params['breadcrumbs'][] = $this->title;
 
 //            'id',
 //            'user_id',
-            'region_id',
-            'city_id',
-            'category_id',
-            'subcategory_id',
+            [
+                'attribute' => 'region_id',
+                'value' => 'region.name',
+                'label' => 'Region',
+                'filter'=> Advert::getAllRegions(),
+            ],
+            //'city_id',
+            [
+                'attribute' => 'city_id',
+                'value' => 'city.name',
+                'label' => 'City',
+                'filter'=> Advert::getCities(),
+            ],
+            [
+                'attribute' => 'category_id',
+                'value' => 'category.name',
+                'label' => 'Category',
+                'filter'=> Advert::getAllICategories(),
+            ],
+            //'subcategory_id',
+            [
+                'attribute' => 'subcategory_id',
+                'value' => 'subcategory.name',
+                'label' => 'Subcategory',
+                'filter'=> Advert::getSubcategories(),
+            ],
             'title',
 //            'text:ntext',
 //            'created_at',
-            'updated_at',
+            [
+                'attribute' => 'updated_at',
+                'format' => ['date', 'php:d M Y, H:i']
+            ],
             'views',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+
+    <?php
+    $adv = new Advert();
+    echo '<pre>';
+    //print_r($adv->getCities());
+    ?>
 
 </div>

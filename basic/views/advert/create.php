@@ -13,7 +13,14 @@ $this->title = 'Create Advert';
 use yii\bootstrap\ActiveForm;
 //use yii\helpers\Html;
 use yii\helpers\Url;
+use app\models\User;
 
+$user = new User;
+//echo '<pre>';
+//print_r($user->getSkype()); die;
+echo 'Phone: ' . $user->phone . '<br>';
+echo 'Skype: ' . $user->getSkype()['skype'] . '<br>';
+echo 'E-mail: ' . $user->email . '<br>';
 
 $form = ActiveForm::begin(['id' => 'login-form']);
 

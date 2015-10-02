@@ -30,18 +30,30 @@ $this->title = 'My Yii Application';
         $t = time();
         echo $t - $stamp;
         echo '<br>';
-        echo date('t');
+        echo date('t') . '<br>';
+        $k = 15;
+        echo $k;
         ?>
     </div>
 
     <?php
     use yii\helpers\Html;
     use yii\bootstrap\ActiveForm;
+    use yii\helpers\Url;
 
     $form = ActiveForm::begin(['id' => 'id']);
     echo Html::input('button', 'button', 'button', [
-        'onclick' => 'msg'
+        'onclick' => '
+                        $.ajax({
+                            type: "GET",
+                            url: "http://new.loc/site/hello",
+                            success: function() {
+                                alert("HELLO");
+                            }
+                        });
+                        '
     ]);
+    echo $k;
 
 //    $model = new \app\models\Advert();
 //

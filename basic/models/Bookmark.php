@@ -77,4 +77,11 @@ class Bookmark extends \yii\db\ActiveRecord
 
         return $bookmarks;
     }
+
+    public function addToBookmarks($user_id, $advert_id)
+    {
+        //$user_id = Yii::$app->user->identity->getId();
+        $command = 'INSERT INTO bookmark (user_id, advert_id) VALUES ' . $user_id . ', ' . $advert_id;
+        Yii::$app->db->createCommand($command);
+    }
 }

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Advert */
@@ -67,6 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]);
     } else {
+        $model->countViews();
         echo Html::a('Add to bookmarks', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
     }
     ?>

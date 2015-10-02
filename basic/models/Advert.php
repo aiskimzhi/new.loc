@@ -207,4 +207,79 @@ class Advert extends \yii\db\ActiveRecord
         }
         return null;
     }
+
+    public static function getAllICategories()
+    {
+        $command = 'SELECT id, name FROM category';
+        $arr = Yii::$app->db->createCommand($command)
+            ->queryAll();
+
+        for ($i = 0; $i < count($arr); $i++) {
+
+            $n[$arr[$i]['id']] = $arr[$i]['name'];
+        }
+
+        return $n;
+    }
+
+    public static function getSubcategories()
+    {
+        if (empty($_GET['AdvertCRUD']['category_id'])) {
+            $_GET['AdvertCRUD']['category_id'] = '';
+            $n = [];
+        } else {
+            $command = 'SELECT id, name FROM subcategory WHERE category_id = :category_id';
+            $arr = Yii::$app->db->createCommand($command, [':category_id' => $_GET['AdvertCRUD']['category_id']])
+                ->queryAll();
+
+            for ($i = 0; $i < count($arr); $i++) {
+                $n[$arr[$i]['id']] = $arr[$i]['name'];
+            }
+        }
+
+        return $n;
+    }
+
+    public static function getAllRegions()
+    {
+        $command = 'SELECT name, id FROM region';
+        $arr = Yii::$app->db->createCommand($command)
+            ->queryAll();
+
+        for ($i = 0; $i < count($arr); $i++) {
+
+            $n[$arr[$i]['id']] = $arr[$i]['name'];
+        }
+
+        return $n;
+    }
+
+    public static function getCities()
+    {
+
+            if (empty($_GET['AdvertCRUD']['region_id'])) {
+                $_GET['AdvertCRUD']['city_id'] = '';
+                $n = [];
+            } else {
+                $command = 'SELECT id, name FROM city WHERE region_id = :region_id';
+                $arr = Yii::$app->db->createCommand($command, [':region_id' => $_GET['AdvertCRUD']['region_id']])
+                    ->queryAll();
+
+                for ($i = 0; $i < count($arr); $i++) {
+                    $n[$arr[$i]['id']] = $arr[$i]['name'];
+                }
+            }
+
+
+            return $n;
+
+    }
+
+    public function countViews()
+    {
+        $views = $this->views + 1;
+        $command = 'UPDATE advert SET views = ' . $views . ' WHERE id = :id';
+        $n = Yii::$app->db->createCommand($command, [':id' => $_GET['id']])->query();
+        return $n;
+    }
 }

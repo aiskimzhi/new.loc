@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Advert;
 use app\models\City;
 use app\models\Region;
 use app\models\ResetPasswordForm;
@@ -54,6 +55,15 @@ class SiteController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    public function actionHello()
+    {
+        if (empty($_POST)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public function actionLogin()

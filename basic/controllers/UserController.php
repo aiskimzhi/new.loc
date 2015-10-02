@@ -6,6 +6,7 @@ use Yii;
 use app\models\User;
 //use app\models\ChangeAccountSettings;
 use app\models\ChangePassword;
+use app\models\NewM;
 use app\models\UserCRUD;
 use app\models\PasswordResetRequestForm;
 use yii\web\Controller;
@@ -39,6 +40,17 @@ class UserController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionNew()
+    {
+        $searchModel = new NewM();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('new', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

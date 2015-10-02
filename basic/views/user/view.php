@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
@@ -27,7 +28,7 @@ $this->title = 'My Data';
     <p>
         <?= Html::a('Update data', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
 
-        <a class="btn btn-success" href="http://new.loc/user/change-password">Change password</a>
+        <?= Html::a('Change password', [Url::toRoute('user/change-password')], ['class' => 'btn btn-success'])?>
 
         <?= Html::a('Delete account', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -37,11 +38,14 @@ $this->title = 'My Data';
             ],
         ]) ?>
 
-        <a class="btn btn-warning" href="http://new.loc">Create Advert</a>
+        <?= Html::a('Create Advert', [Url::toRoute('advert/create')], ['class' => 'btn btn-warning']) ?>
 
-        <a class="btn btn-info" href="http://new.loc">My Adverts</a>
+        <?= Html::a('My Adverts',
+            [Url::toRoute('advert/index') . '?AdvertCRUD%5Buser_id%5D=' . Yii::$app->user->identity->getId()],
+            ['class' => 'btn btn-info']) ?>
 
-        <a class="btn btn-info" href="http://new.loc">My Bookmarks</a>
+        <?= Html::a('My Bookmarks', [Url::toRoute('advert/bookmarks')], ['class' => 'btn btn-info'])?>
+
 
     </p>
 </div>

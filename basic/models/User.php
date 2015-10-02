@@ -171,4 +171,25 @@ class User extends ActiveRecord implements IdentityInterface
         ]);
     }
 
+    public static function getAllIds()
+    {
+        $command = 'SELECT id FROM ' . self::tableName();
+        $arr = Yii::$app->db->createCommand($command)
+            ->queryAll();
+
+        for ($i = 0; $i < count($arr); $i++) {
+            $n[$i] = $arr[$i]['id'];
+        }
+
+        return $n;
+    }
+
+    public function getSkype()
+    {
+        $command = 'SELECT skype FROM user WHERE id = :id';
+        return Yii::$app->db->createCommand($command, [':id' => Yii::$app->user->identity->getId()])->queryOne();
+
+
+    }
+
 }

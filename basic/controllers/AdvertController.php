@@ -41,13 +41,6 @@ class AdvertController extends Controller
      */
     public function actionIndex()
     {
-        $model = new Advert();
-        $arr = $model->getMyAdverts();
-        print_r($arr);
-        echo count($arr);
-
-
-
         $searchModel = new AdvertCRUD();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -66,7 +59,10 @@ class AdvertController extends Controller
     {
         $model = new Advert();
         $arr = $model->getAdvert($id);
-        //var_dump($arr);
+        var_dump($arr);
+        var_dump($arr[0]['id']);
+        var_dump($model->views);
+
 
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -170,36 +166,13 @@ class AdvertController extends Controller
 
     public function actionMy()
     {
+        $searchModel = new AdvertCRUD();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $model = new Advert();
-
-        $catList = ArrayHelper::map(Category::find()->asArray()->all(), 'id', 'name');
-        $subcatList = ArrayHelper::map(Subcategory::find()->asArray()->all(), 'id', 'name');
-        $regionList = ArrayHelper::map(Region::find()->asArray()->all(), 'id', 'name');
-        $cityList = ArrayHelper::map(City::find()->asArray()->all(), 'id', 'name');
-
-        return $this->render('my',
-            [
-                'model' => $model,
-                'catList' => $catList,
-                'subcatList' => $subcatList,
-                'regionList' => $regionList,
-                'cityList' => $cityList
-            ]);
-
-
-
-
-//        $searchModel = new AdvertCRUD();
-//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-//
-//        return $this->render('my', [
-//            'searchModel' => $searchModel,
-//            'dataProvider' => $dataProvider,
-//        ]);
-
-
-
+        return $this->render('my', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
 //    public function actionAdv()
