@@ -17,10 +17,14 @@ use app\models\User;
 
 $user = new User;
 //echo '<pre>';
-//print_r($user->getSkype()); die;
-echo 'Phone: ' . $user->phone . '<br>';
-echo 'Skype: ' . $user->getSkype()['skype'] . '<br>';
-echo 'E-mail: ' . $user->email . '<br>';
+//print_r($user->getcontacts()); die;
+echo 'Phone: ' . $user->getContacts()['phone'] . '<br>';
+echo 'Skype: ' . $user->getContacts()['skype'] . '<br>';
+echo 'E-mail: ' . $user->getContacts()['email'] . '<br>';
+
+$link = Url::toRoute('user/update') . '?id=' . Yii::$app->user->identity->getId();
+echo 'To change your contact information follow the link: ';
+echo '<a href="' . $link . '">Update contact information</a>';
 
 $form = ActiveForm::begin(['id' => 'login-form']);
 

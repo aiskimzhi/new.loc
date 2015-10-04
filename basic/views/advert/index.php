@@ -1,8 +1,10 @@
 <?php
 
+use app\models\Advert;
 use yii\helpers\Html;
 use yii\grid\GridView;
-use app\models\Advert;
+use yii\grid\ActionColumn;
+use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AdvertCRUD */
@@ -59,7 +61,15 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'created_at',
             [
                 'attribute' => 'updated_at',
-                'format' => ['date', 'php:d M Y, H:i']
+                'format' => ['date', 'php:d M Y, H:i'],
+//                'filter' => DatePicker::widget(
+//                    [
+//                        'model' => $searchModel,
+//                        'attribute' => 'updated_at',
+//                        'options' => ['class' => 'form-control'],
+//                        'clientOptions' => ['dateFormat' => 'mm dd, yyyy']
+//                    ]
+//                )
             ],
             'views',
 
@@ -70,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     $adv = new Advert();
     echo '<pre>';
-    //print_r($adv->getCities());
+    //print_r($dataProvider);
     ?>
 
 </div>

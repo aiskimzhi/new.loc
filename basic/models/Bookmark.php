@@ -52,6 +52,16 @@ class Bookmark extends \yii\db\ActiveRecord
         return $this->hasOne(Advert::className(), ['id' => 'advert_id']);
     }
 
+    public function getCategory()
+    {
+        return $this->hasOne(Category::className(), ['id' => 'category_id'])->via('advert');
+    }
+
+    public function getSubcategory()
+    {
+        return $this->hasOne(Subcategory::className(), ['id' => 'subcategory_id'])->via('advert');
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
