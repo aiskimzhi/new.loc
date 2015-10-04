@@ -8,8 +8,8 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\Advert */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Adverts', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = ['label' => 'Adverts', 'url' => ['index']];
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="advert-view">
 
@@ -25,38 +25,46 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-<!--
+
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-           // 'id',
-            'user_id',
-            'region_id',
-            'city_id',
-            'category_id',
-            'subcategory_id',
-            'title',
-            'text:ntext',
-            'created_at',
-            'updated_at',
-            'views',
-        ],
+            [
+                'label' => 'Region: ',
+                'value' =>  $model->region->name
+            ],
+            [
+                'label' => 'City: ',
+                'value' => $model->city->name
+            ],
+            [
+                'label' => 'Category: ',
+                'value' => $model->category->name
+            ],
+            [
+                'label' => 'Subcategory',
+                'value' => $model->subcategory->name
+            ],
+            [
+                'label' => 'Updated: ',
+                'value' => $model->updated_at,
+                'format' => ['date', 'php:d M Y, H:i']
+            ],
+            [
+                'label' => $model->title,
+                'value' => $model->text
+            ],
+            [
+                'label' => 'Phone',
+                'value' => $model->user->phone
+            ]
+        ]
     ]) ?>
--->
 
-    <?php $arr = $model->getAdvert($model->id); ?>
-    <?= 'Category: ' . $arr[0]['category'] . '<br>'; ?>
-    <?= 'Subcategory: ' . $arr[0]['subcategory'] . '<br>'; ?>
-    <?= 'Region: ' . $arr[0]['region'] . '<br>'; ?>
-    <?= 'City: ' . $arr[0]['city'] . '<br>'; ?>
-    <?= $arr[0]['title'] . '<br>'; ?>
-    <?= $arr[0]['text'] . '<br>'; ?>
-    <?= '<h5><b>Contacts:</b></h5>'; ?>
-    <?= 'Phone: ' . $arr[0]['phone'] . '<br>'; ?>
-    <?= 'Skype: ' . $arr[0]['skype'] . '<br>'; ?>
-    <?= 'E-mail: ' . $arr[0]['email'] . '<br>'; ?>
 
     <?php
+
+    $arr = $model->getAdvert($model->id);
 
     if ($arr[0]['user_id'] == Yii::$app->user->identity->getId()) {
         echo Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
@@ -69,7 +77,18 @@ $this->params['breadcrumbs'][] = $this->title;
         ]);
     } else {
         $model->countViews();
-        echo Html::a('Add to bookmarks', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
+
+        $url = \yii\helpers\Url::toRoute('bookmark/add-to-bookmarks?id=') . $_GET['id'];
+        echo Html::input('button', 'button', 'Add to Bookmarks', [
+            'onclick' => '
+                        $.ajax({
+                            url: "' . $url . '",
+                            success: function() {
+                                alert("This advert was added to your bookmarks");
+                            }
+                        });
+                        '
+        ]);
     }
     ?>
 </div>

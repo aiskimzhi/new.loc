@@ -15,9 +15,25 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 use app\models\User;
 
-$user = new User;
-//echo '<pre>';
-//print_r($user->getcontacts()); die;
+echo \yii\widgets\DetailView::widget([
+    'model' => $user,
+    'attributes' => [
+        [
+            'label' => 'Phone: ',
+            'value' => $user->phone
+        ],
+        [
+            'label' => 'Skype: ',
+            'value' => $user->skype
+        ],
+        [
+            'label' => 'E-mail',
+            'value' => $user->email
+        ]
+    ]
+]);
+
+
 echo 'Phone: ' . $user->getContacts()['phone'] . '<br>';
 echo 'Skype: ' . $user->getContacts()['skype'] . '<br>';
 echo 'E-mail: ' . $user->getContacts()['email'] . '<br>';

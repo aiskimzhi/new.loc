@@ -2,15 +2,14 @@
 
 namespace app\controllers;
 
-use app\models\AdvertUse;
 use app\models\Bookmark;
+use app\models\User;
 use Yii;
 use app\models\Advert;
 use app\models\AdvertCRUD;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\db\Query;
 use app\models\Region;
 use app\models\City;
 use app\models\Category;
@@ -58,11 +57,6 @@ class AdvertController extends Controller
     public function actionView($id)
     {
         $model = new Advert();
-        $arr = $model->getAdvert($id);
-        var_dump($arr);
-        var_dump($arr[0]['id']);
-        var_dump($model->views);
-
 
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -195,6 +189,7 @@ class AdvertController extends Controller
     public function actionCreate()
     {
         $model = new Advert();
+        $user = User::findOne(['id' => Yii::$app->user->id]);
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->createAdvert()) {
@@ -213,6 +208,7 @@ class AdvertController extends Controller
         return $this->render('create',
             [
                 'model' => $model,
+                'user' => $user,
                 'catList' => $catList,
                 'subcatList' => $subcatList,
                 'regionList' => $regionList,

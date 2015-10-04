@@ -8,6 +8,7 @@ use app\models\BookmarkSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 
 /**
  * BookmarkController implements the CRUD actions for Bookmark model.
@@ -117,5 +118,16 @@ class BookmarkController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionAddToBookmarks($id)
+    {
+        $query = "INSERT INTO bookmark (user_id, advert_id) VALUES (:user_id, :advert_id)";
+        Yii::$app->db->createCommand($query, [
+            ':user_id' => Yii::$app->user->identity->getId(),
+            ':advert_id' => $id
+        ])->query();
+
+        echo Json::encode(['output'=>'', 'selected'=>'']);
     }
 }

@@ -25,7 +25,7 @@ $form = ActiveForm::begin(['id' => 'form']);
 
 echo $form->field($model, 'category_id')->dropDownList($catList,
     [
-        'prompt'   => '- Choose a Category -',
+        //'prompt'   => '- Choose a Category -',
         'onchange' => '
                         $.ajax({
                             url: "' . Url::toRoute('get-subcat?id=') . '" + $(this).val(),
@@ -37,15 +37,11 @@ echo $form->field($model, 'category_id')->dropDownList($catList,
     ]);
 
 
-echo $form->field($model, 'subcategory_id')
-    ->dropDownList(
-        ['id' => '- Choose a Sub-category -'],
-        [ 'disabled' => 'disabled']
-    );
+echo $form->field($model, 'subcategory_id')->dropDownList($subcatList);
 
 echo $form->field($model, 'region_id')->dropDownList($regionList,
     [
-        'prompt'   => '- Choose a Region -',
+        //'prompt'   => '- Choose a Region -',
         'onchange' => '
                         $.ajax({
                             url: "' . Url::toRoute('get-city?id=') . '" + $(this).val(),
@@ -57,11 +53,7 @@ echo $form->field($model, 'region_id')->dropDownList($regionList,
     ]);
 
 
-echo $form->field($model, 'city_id')
-    ->dropDownList(
-        ['id' => '- Choose a City -'],
-        [ 'disabled' => 'disabled']
-    );
+echo $form->field($model, 'city_id')->dropDownList($cityList);
 
 echo $form->field($model, 'title')->textInput();
 

@@ -2,9 +2,6 @@
 
 namespace app\controllers;
 
-use app\models\Advert;
-use app\models\City;
-use app\models\Region;
 use app\models\ResetPasswordForm;
 use Yii;
 use yii\filters\AccessControl;
@@ -85,7 +82,6 @@ class SiteController extends Controller
     {
         $model = new SignupForm();
 
-        //var_dump($model->signup()); die;
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {

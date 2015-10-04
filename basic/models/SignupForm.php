@@ -17,6 +17,7 @@ class SignupForm extends Model
     public $repeated_password;
     public $skype;
     public $phone;
+
     /**
      * @inheritdoc
      */

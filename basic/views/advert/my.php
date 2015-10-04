@@ -24,8 +24,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'tableOptions' => [
+            'class' => 'table',
+        ],
+        'showHeader' => false,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+//            ['class' => 'yii\grid\SerialColumn'],
 
 //            'id',
 //            'user_id',
@@ -55,9 +59,18 @@ $this->params['breadcrumbs'][] = $this->title;
 //                'label' => 'Subcategory',
 //                'filter'=> Advert::getAllISubcategories(),
 //            ],
-            'title',
+//            'title',
 //            'text:ntext',
 //            'created_at',
+            [
+                'label' => 'content',
+                'format' => 'html',
+                'value' => function ($model) {
+                    $text = '<div><strong>' . $model->title . '</strong></div>';
+                    $text .= '<div>' . $model->text . '</div>';
+                    return $text;
+                },
+            ],
             [
                 'attribute' => 'updated_at',
                 'format' => ['date', 'php:d M Y, H:i']

@@ -128,7 +128,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function generatePasswordResetToken()
     {
-        $this->password_reset_token = Yii::$app->security->generateRandomString();
+        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
 
     /**
