@@ -7,7 +7,7 @@ use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 
-$this->title = 'My Data';
+$this->title = 'My Account';
 //$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -26,7 +26,7 @@ $this->title = 'My Data';
     ]) ?>
 
     <p>
-        <?= Html::a('Update data', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Update data', [Url::toRoute('user/update-data')], ['class' => 'btn btn-primary']) ?>
 
         <?= Html::a('Change password', [Url::toRoute('user/change-password')], ['class' => 'btn btn-success'])?>
 
@@ -41,7 +41,7 @@ $this->title = 'My Data';
         <?= Html::a('Create Advert', [Url::toRoute('advert/create')], ['class' => 'btn btn-warning']) ?>
 
         <?= Html::a('My Adverts',
-            [Url::toRoute('advert/index') . '?AdvertCRUD%5Buser_id%5D=' . Yii::$app->user->identity->getId()],
+            [Url::toRoute('advert/my-adverts')],
             ['class' => 'btn btn-info']) ?>
 
         <?= Html::a('My Bookmarks', [Url::toRoute('advert/bookmarks')], ['class' => 'btn btn-info'])?>

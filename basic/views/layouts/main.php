@@ -36,7 +36,6 @@ AppAsset::register($this);
     if (Yii::$app->user->isGuest) {
         $items = [
             ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'Advert', 'url' => ['/advert/index']],
             ['label' => 'Sign Up', 'url' => ['/site/signup']],
             ['label' => 'Login', 'url' => ['/site/login']]
         ];
@@ -45,7 +44,7 @@ AppAsset::register($this);
             ['label' => 'Home', 'url' => ['/site/index']],
             ['label' => 'Advert', 'url' => ['/advert/index']],
             ['label' => 'User CRUD', 'url' => ['/user/index']],
-            ['label' => 'Account', 'url' => ['/user/view?id=' . Yii::$app->user->identity->getId()]],
+            ['label' => 'Account', 'url' => ['/user/account']],
             [
                 'label' => 'Logout (' . Yii::$app->user->identity->getFullName() . ')',
                 'url' => ['/site/logout'],

@@ -30,6 +30,7 @@ use yii\db\Query;
  */
 class Advert extends \yii\db\ActiveRecord
 {
+    public $price;
     /**
      * @inheritdoc
      */

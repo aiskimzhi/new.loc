@@ -15,6 +15,7 @@ use Yii;
  */
 class Bookmark extends \yii\db\ActiveRecord
 {
+    public $id;
     /**
      * @inheritdoc
      */

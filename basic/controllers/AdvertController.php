@@ -104,6 +104,9 @@ class AdvertController extends Controller
 //        var_dump($model = $this->findModel($id)->getAttributes(['user_id', 'id'])); die;
         //var_dump($this->findModel($id)['_attributes":"yii\db\BaseActiveRecord":private']['user_id']); die;
 
+
+        echo '<br><br><br><br><br><br>';
+
         var_dump($model = $this->findModel($id));
 
         $catList = ArrayHelper::map(Category::find()->asArray()->all(), 'id', 'name');
@@ -264,6 +267,9 @@ class AdvertController extends Controller
     {
         $model = new Bookmark();
 
+//        $searchModel = new AdvertCRUD();
+//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
 //        $catList = ArrayHelper::map(Category::find()->asArray()->all(), 'id', 'name');
 //        $subcatList = ArrayHelper::map(Subcategory::find()->asArray()->all(), 'id', 'name');
 
@@ -275,6 +281,42 @@ class AdvertController extends Controller
 //            ]);
 
         return $this->render('bookmarks', [
-            'model' => $model]);
+            'model' => $model,
+        ]);
+    }
+
+    public function actionMyAdverts()
+    {
+        $searchModel = new AdvertCRUD();
+        $dataProvider = $searchModel->lookFor();
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+
+    }
+
+    public function actionUpdateAdvert()
+    {
+//        $id = Yii::$app->user->identity->getId();
+//        $user = User::findOne(['id' => Yii::$app->user->id]);
+//
+//        $m = Advert::findOne(['id' => Yii::$app->ad])
+//        var_dump($m); die;
+
+        $catList = ArrayHelper::map(Category::find()->asArray()->all(), 'id', 'name');
+        $subcatList = ArrayHelper::map(Subcategory::find()->asArray()->all(), 'id', 'name');
+        $regionList = ArrayHelper::map(Region::find()->asArray()->all(), 'id', 'name');
+        $cityList = ArrayHelper::map(City::find()->asArray()->all(), 'id', 'name');
+
+        return $this->render('update',
+            [
+                'model' => $model,
+                'catList' => $catList,
+                'subcatList' => $subcatList,
+                'regionList' => $regionList,
+                'cityList' => $cityList
+            ]);
     }
 }

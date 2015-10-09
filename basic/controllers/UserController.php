@@ -39,6 +39,8 @@ class UserController extends Controller
         $searchModel = new UserCRUD();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -141,14 +143,14 @@ class UserController extends Controller
         }
     }
 
-    public function actionChangeAccountSettings()
-    {
-        $model = new UserCRUD();
-
-        return $this->render('change-account-settings', [
-            'model' => $model,
-        ]);
-    }
+//    public function actionChangeAccountSettings()
+//    {
+//        $model = new UserCRUD();
+//
+//        return $this->render('change-account-settings', [
+//            'model' => $model,
+//        ]);
+//    }
 
     public function actionChangePassword()
     {
@@ -194,5 +196,32 @@ class UserController extends Controller
         return $this->render('requestPasswordResetToken', [
             'model' => $model,
         ]);
+    }
+
+    public function actionAccount()
+    {
+        return $this->render('view', [
+            'model' => $this->findModel(Yii::$app->user->identity->getId()),
+        ]);
+    }
+
+    public function actionUpdateData()
+    {
+        $model = $this->findModel(Yii::$app->user->identity->getId());
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Your data was changed successfully');
+            return $this->redirect(['view', 'id' => $model->id]);
+        } elseif (!($model->load(Yii::$app->request->post()) && $model->save()) && empty($_POST)) {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+        else {
+            Yii::$app->session->setFlash('error', 'Your data was not changed successfully');
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
     }
 }

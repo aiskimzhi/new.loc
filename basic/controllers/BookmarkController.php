@@ -130,4 +130,9 @@ class BookmarkController extends Controller
 
         echo Json::encode(['output'=>'', 'selected'=>'']);
     }
+
+    public function actionBook()
+    {
+        return $this->render('index');
+    }
 }

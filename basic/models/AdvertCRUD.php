@@ -72,4 +72,17 @@ class AdvertCRUD extends Advert
 
         return $dataProvider;
     }
+
+    public function lookFor()
+    {
+        $query = Advert::find()->andFilterWhere([
+            'user_id' => Yii::$app->user->identity->getId(),
+        ]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query
+        ]);
+
+        return$dataProvider;
+    }
 }

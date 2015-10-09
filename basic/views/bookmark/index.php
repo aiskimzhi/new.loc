@@ -10,7 +10,7 @@ use yii\grid\ActionColumn;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Bookmarks';
-$this->params['breadcrumbs'][] = $this->title;
+//$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="bookmark-index">
@@ -18,9 +18,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
+    <?php
+    $n = Yii::$app->request->get();
+    var_dump($n);
+    ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        //'filterModel' => $searchModel,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -43,31 +48,35 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'advert.updated_at:datetime',
 
-            'id',
+//            'id',
             'user_id',
             'advert_id',
 
-            [
-                'class' => ActionColumn::className(),
-                'template' => '{view} {delete}',
-                'buttons' => [
-                    'view' => function($url, $model, $key) {
-                        $url = Url::toRoute('advert/view') . '?id=' . $model->advert_id;
-                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [
-                            'title' => 'View',
-                            'data-pjax' => 0
-                        ]);
-                    },
-                    'delete' => function($url, $model, $key) {
-                        return  Html::a('<span class="glyphicon glyphicon-remove"></span>', $url, [
-                            'title' => 'Delete',
-                            'data-confirm' => 'Are you sure you want to delete?',
-                            'data-method' => 'post',
-                            'data-pjax' => 0
-                        ]);
-                    }
-                ]
-            ]
+            ['class' => 'yii\grid\ActionColumn', 'template' => '{view} {update}']
+
+//            [
+//                'class' => ActionColumn::className(),
+//                'template' => '{view} {delete}',
+//                'buttons' => [
+//                    'view' => function($url, $model, $key) {
+//                        $url = Url::toRoute('advert/view') . '?id=' . $model->advert_id;
+//                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [
+//                            'title' => 'View',
+//                            'data-method' => 'post',
+//                            'data-pjax' => 0
+//                        ]);
+//                    },
+//                    'delete' => function($url, $model, $key) {
+//                        $url = Url::toRoute('advert/delete') . '?id=' . $model->advert_id;
+//                        return  Html::a('<span class="glyphicon glyphicon-remove"></span>', $url, [
+//                            'title' => 'Delete',
+//                            'data-confirm' => 'Are you sure you want to delete?',
+//                            'data-method' => 'post',
+//                            'data-pjax' => 0
+//                        ]);
+//                    }
+//                ]
+//            ]
         ],
     ]); ?>
 
