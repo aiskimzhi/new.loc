@@ -52,31 +52,31 @@ $this->title = 'Bookmarks';
             'user_id',
             'advert_id',
 
-            ['class' => 'yii\grid\ActionColumn', 'template' => '{view} {update}']
+//            ['class' => 'yii\grid\ActionColumn']
 
-//            [
-//                'class' => ActionColumn::className(),
-//                'template' => '{view} {delete}',
-//                'buttons' => [
-//                    'view' => function($url, $model, $key) {
-//                        $url = Url::toRoute('advert/view') . '?id=' . $model->advert_id;
-//                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [
-//                            'title' => 'View',
-//                            'data-method' => 'post',
-//                            'data-pjax' => 0
-//                        ]);
-//                    },
-//                    'delete' => function($url, $model, $key) {
-//                        $url = Url::toRoute('advert/delete') . '?id=' . $model->advert_id;
-//                        return  Html::a('<span class="glyphicon glyphicon-remove"></span>', $url, [
-//                            'title' => 'Delete',
-//                            'data-confirm' => 'Are you sure you want to delete?',
-//                            'data-method' => 'post',
-//                            'data-pjax' => 0
-//                        ]);
-//                    }
-//                ]
-//            ]
+            [
+                'class' => ActionColumn::className(),
+                'template' => '{view} {delete}',
+                'buttons' => [
+                    'view' => function($url, $model, $key) {
+                        $url = Url::toRoute('advert/view') . '?id=' . $model->advert_id;
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [
+                            'title' => 'View',
+                            'data-method' => 'post',
+                            'data-pjax' => 0
+                        ]);
+                    },
+                    'delete' => function($url, $model, $key) {
+                        $url = Url::toRoute('advert/delete') . '?id=' . $model->advert_id;
+                        return  Html::a('<span class="glyphicon glyphicon-remove"></span>', $url, [
+                            'title' => 'Delete',
+                            'data-confirm' => 'Are you sure you want to delete?',
+                            'data-method' => 'post',
+                            'data-pjax' => 0
+                        ]);
+                    }
+                ]
+            ]
         ],
     ]); ?>
 

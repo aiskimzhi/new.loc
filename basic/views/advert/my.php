@@ -1,6 +1,8 @@
 <?php
 
+use app\models\Region;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 use app\models\Advert;
 
@@ -20,6 +22,35 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Advert', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 -->
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'showOnEmpty' => false,
+        'columns' => [
+            [
+                'attribute' => 'region_id',
+                //'value' => 'region.name',
+                //'label' => 'Region',
+                'format' => 'raw',
+                'filter'=> $regions,
+                'value' => function ($model) {
+                    $text = '<div><strong><a href="' . Url::toRoute('advert/view?id=') . $model->id . '"> ' . $model->title . '</a></strong></div>';
+                    $text .= '<div>' . $model->category->name . ' >> ' . $model->subcategory->name . '</div>';
+                    $text .= '<br>';
+                    $format = 'd M Y H:i';
+                    $text .= date($format, $model->updated_at);
+                    return $text;
+                },
+            ],
+            [
+                'attribute' => 'city_id',
+                //'value' => 'city.name',
+                //'label' => 'City',
+                'filter'=> Advert::getCities(),
+            ],
+        ]
+    ]) ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -62,22 +93,31 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'title',
 //            'text:ntext',
 //            'created_at',
+            'user_id',
+            [
+                'attribute' => 'user_id',
+                'label' => ''
+            ],
             [
                 'label' => 'content',
                 'format' => 'html',
                 'value' => function ($model) {
-                    $text = '<div><strong>' . $model->title . '</strong></div>';
-                    $text .= '<div>' . $model->text . '</div>';
+                    $text = '<div><strong><a href="' . Url::toRoute('advert/view?id=') . $model->id . '"> ' . $model->title . '</a></strong></div>';
+                    $text .= '<div>' . $model->category->name . ' >> ' . $model->subcategory->name . '</div>';
+                    $text .= '<br>';
+                    $format = 'd M Y H:i';
+                    $text .= date($format, $model->updated_at);
                     return $text;
                 },
             ],
-            [
-                'attribute' => 'updated_at',
-                'format' => ['date', 'php:d M Y, H:i']
-            ],
+            'price',
+//            [
+//                'attribute' => 'updated_at',
+//                'format' => ['date', 'php:d M Y, H:i']
+//            ],
             'views',
 
-            ['class' => 'yii\grid\ActionColumn'],
+//            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 

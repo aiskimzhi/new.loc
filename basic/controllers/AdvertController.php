@@ -99,29 +99,27 @@ class AdvertController extends Controller
      */
     public function actionUpdate($id)
     {
-//        $m = new Advert();
-//        var_dump($m->updateAdv());
-//        var_dump($model = $this->findModel($id)->getAttributes(['user_id', 'id'])); die;
-        //var_dump($this->findModel($id)['_attributes":"yii\db\BaseActiveRecord":private']['user_id']); die;
+        $model = $this->findModel($id);
+
+        if ($model->user_id == Yii::$app->user->identity->getId()) {
+            $catList = ArrayHelper::map(Category::find()->asArray()->all(), 'id', 'name');
+            $subcatList = ArrayHelper::map(Subcategory::find()->asArray()->all(), 'id', 'name');
+            $regionList = ArrayHelper::map(Region::find()->asArray()->all(), 'id', 'name');
+            $cityList = ArrayHelper::map(City::find()->asArray()->all(), 'id', 'name');
+
+            return $this->render('update',
+                [
+                    'model' => $model,
+                    'catList' => $catList,
+                    'subcatList' => $subcatList,
+                    'regionList' => $regionList,
+                    'cityList' => $cityList
+                ]);
+        } else {
+            return 'error 403: access forbidden!';
+        }
 
 
-        echo '<br><br><br><br><br><br>';
-
-        var_dump($model = $this->findModel($id));
-
-        $catList = ArrayHelper::map(Category::find()->asArray()->all(), 'id', 'name');
-        $subcatList = ArrayHelper::map(Subcategory::find()->asArray()->all(), 'id', 'name');
-        $regionList = ArrayHelper::map(Region::find()->asArray()->all(), 'id', 'name');
-        $cityList = ArrayHelper::map(City::find()->asArray()->all(), 'id', 'name');
-
-        return $this->render('update',
-            [
-                'model' => $model,
-                'catList' => $catList,
-                'subcatList' => $subcatList,
-                'regionList' => $regionList,
-                'cityList' => $cityList
-            ]);
 
 //        if ($model->load(Yii::$app->request->post()) && $model->save()) {
 //            return $this->redirect(['view', 'id' => $model->id]);
@@ -140,9 +138,18 @@ class AdvertController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
 
-        return $this->redirect(['index']);
+        if ($model->user_id == Yii::$app->user->identity->getId()) {
+            $model->delete();
+            return $this->redirect(['index']);
+        } else {
+            return 'error 403: access forbidden!';
+        }
+
+//        $this->findModel($id)->delete();
+//
+//        return $this->redirect(['index']);
     }
 
     /**
@@ -166,28 +173,16 @@ class AdvertController extends Controller
         $searchModel = new AdvertCRUD();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $regions = Region::find()->select(['id', 'name'])->asArray()->all();
+        $regions = ArrayHelper::map($regions, 'id', 'name');
+
+
         return $this->render('my', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'regions' => $regions,
         ]);
     }
-
-//    public function actionAdv()
-//    {
-//        $model = new AdvertUse();
-//
-//
-//        //var_dump($model->create());
-//
-//        echo '<br><br><br><br><br><br><br>';
-//        var_dump($model->create());
-//        //var_dump($model->load(Yii::$app->request->post()));
-//
-//
-//        return $this->render('advert', [
-//            'model' => $model,
-//        ]);
-//    }
 
     public function actionCreate()
     {
@@ -267,19 +262,6 @@ class AdvertController extends Controller
     {
         $model = new Bookmark();
 
-//        $searchModel = new AdvertCRUD();
-//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-//        $catList = ArrayHelper::map(Category::find()->asArray()->all(), 'id', 'name');
-//        $subcatList = ArrayHelper::map(Subcategory::find()->asArray()->all(), 'id', 'name');
-
-//        return $this->render('bookmarks',
-//            [
-//                'model' => $model,
-//                'catList' => $catList,
-//                'subcatList' => $subcatList,
-//            ]);
-
         return $this->render('bookmarks', [
             'model' => $model,
         ]);
@@ -294,29 +276,5 @@ class AdvertController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-
-    }
-
-    public function actionUpdateAdvert()
-    {
-//        $id = Yii::$app->user->identity->getId();
-//        $user = User::findOne(['id' => Yii::$app->user->id]);
-//
-//        $m = Advert::findOne(['id' => Yii::$app->ad])
-//        var_dump($m); die;
-
-        $catList = ArrayHelper::map(Category::find()->asArray()->all(), 'id', 'name');
-        $subcatList = ArrayHelper::map(Subcategory::find()->asArray()->all(), 'id', 'name');
-        $regionList = ArrayHelper::map(Region::find()->asArray()->all(), 'id', 'name');
-        $cityList = ArrayHelper::map(City::find()->asArray()->all(), 'id', 'name');
-
-        return $this->render('update',
-            [
-                'model' => $model,
-                'catList' => $catList,
-                'subcatList' => $subcatList,
-                'regionList' => $regionList,
-                'cityList' => $cityList
-            ]);
     }
 }

@@ -244,8 +244,7 @@ class Advert extends \yii\db\ActiveRecord
     public static function getAllRegions()
     {
         $command = 'SELECT name, id FROM region';
-        $arr = Yii::$app->db->createCommand($command)
-            ->queryAll();
+        $arr = Yii::$app->db->createCommand($command)->queryAll();
 
         for ($i = 0; $i < count($arr); $i++) {
 

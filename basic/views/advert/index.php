@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+//            'id',
 //            'user_id',
             [
                 'attribute' => 'region_id',
@@ -36,7 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Region',
                 'filter'=> Advert::getAllRegions(),
             ],
-            //'city_id',
             [
                 'attribute' => 'city_id',
                 'value' => 'city.name',
@@ -49,7 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Category',
                 'filter'=> Advert::getAllICategories(),
             ],
-            //'subcategory_id',
             [
                 'attribute' => 'subcategory_id',
                 'value' => 'subcategory.name',
@@ -57,8 +55,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter'=> Advert::getSubcategories(),
             ],
             'title',
-//            'text:ntext',
-//            'created_at',
             [
                 'attribute' => 'updated_at',
                 'format' => ['date', 'php:d M Y, H:i'],
@@ -76,11 +72,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
-    <?php
-    $adv = new Advert();
-    echo '<pre>';
-    //print_r($dataProvider);
-    ?>
 
 </div>

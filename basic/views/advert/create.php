@@ -15,6 +15,10 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 use app\models\User;
 
+$link = Url::toRoute('user/update') . '?id=' . Yii::$app->user->identity->getId();
+$label = 'To change your contact information follow the link: ';
+$label .= '<br>';
+$label .= '<a href="' . $link . '">Update contact information</a>';
 echo \yii\widgets\DetailView::widget([
     'model' => $user,
     'attributes' => [
@@ -27,20 +31,15 @@ echo \yii\widgets\DetailView::widget([
             'value' => $user->skype
         ],
         [
-            'label' => 'E-mail',
+            'label' => 'E-mail: ',
             'value' => $user->email
+        ],
+        [
+            'label' => $label,
+            'value' => ''
         ]
     ]
 ]);
-
-
-echo 'Phone: ' . $user->getContacts()['phone'] . '<br>';
-echo 'Skype: ' . $user->getContacts()['skype'] . '<br>';
-echo 'E-mail: ' . $user->getContacts()['email'] . '<br>';
-
-$link = Url::toRoute('user/update') . '?id=' . Yii::$app->user->identity->getId();
-echo 'To change your contact information follow the link: ';
-echo '<a href="' . $link . '">Update contact information</a>';
 
 $form = ActiveForm::begin(['id' => 'login-form']);
 
